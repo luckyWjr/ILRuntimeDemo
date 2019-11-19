@@ -26,13 +26,17 @@ public class Launch : MonoBehaviour
         }
         else
         {
-            
+            //不直接调用 Hotfix.HotfixLaunch.Start 是防止编译dll的时候找不到 Hotfix部分的Hotfix.HotfixLaunch类而报错
+            var assembly = Assembly.GetExecutingAssembly();
+            var type = assembly.GetType("Hotfix.HotfixLaunch");
+            var method = type.GetMethod("Start", BindingFlags.Public | BindingFlags.Static);
+            method.Invoke(null, new object[] { false });
         }
     }
 
     void OnILRuntimeInitialized()
     {
-        ILRuntimeHelp.appdomain.Invoke("Hotfix.HotfixLaunch", "Start", null, null);
+        ILRuntimeHelp.appdomain.Invoke("Hotfix.HotfixLaunch", "Start", null, new object[] { true });
     }
 
     void Update()

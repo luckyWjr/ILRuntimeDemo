@@ -62,9 +62,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Attribute\GameStartAtrribute.cs" />
-    <Compile Include="Assets\Scripts\GameStart\HotfixGameStart@Hotfix.cs" />
-    <Compile Include="Assets\Scripts\GameStart\LocalGameStart.cs" />
     <Compile Include="Assets\Scripts\HotfixLaunch@Hotfix.cs" />
     <Compile Include="Assets\Scripts\ILRuntimeHelp\ILRuntimeAdapterHelp.cs" />
     <Compile Include="Assets\Scripts\ILRuntimeHelp\ILRuntimeDelegateHelp.cs" />
