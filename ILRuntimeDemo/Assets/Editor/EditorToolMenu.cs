@@ -4,10 +4,10 @@ namespace EditorTool
 {
 	public class EditorToolMenu
 	{
-        [MenuItem("Tools/Build Hotfix Dll")]
+        [MenuItem("Tools/ILRuntime Window")]
         public static void ExecuteBuildDLL()
         {
-            var window = (ILRuntimeBuildWindow)EditorWindow.GetWindow(typeof(ILRuntimeBuildWindow), false, "Build Hotfix Dll");
+            var window = (ILRuntimeWindow)EditorWindow.GetWindow(typeof(ILRuntimeWindow), false, "ILRuntime Window");
             window.Show();
         }
     }

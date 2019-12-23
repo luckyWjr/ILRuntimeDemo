@@ -265,7 +265,6 @@ namespace ILRuntime.CLR.Method
             else
             {
                 object instance = null;
-
                 if (!def.IsStatic)
                 {
                     instance = declaringType.TypeForCLR.CheckCLRTypes(StackObject.ToObject((Minus(esp, paramCount + 1)), appdomain, mStack));
@@ -279,6 +278,11 @@ namespace ILRuntime.CLR.Method
                     res = redirect(new ILContext(appdomain, intepreter, esp, mStack, this), instance, param, genericArguments);
                 else*/
                 {
+                    if (def.IsStatic && paramCount > 0 && "Type: TestClass".Equals(param[0].ToString()))
+                    {
+                        UnityEngine.Debug.Log("def:" + def);
+                        UnityEngine.Debug.Log("param:" + param[0].ToString());
+                    }
                     res = def.Invoke(instance, param);
                 }
 

@@ -62,16 +62,31 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\HotfixLaunch@Hotfix.cs" />
-    <Compile Include="Assets\Scripts\ILRuntimeHelp\ILRuntimeAdapterHelp.cs" />
-    <Compile Include="Assets\Scripts\ILRuntimeHelp\ILRuntimeDelegateHelp.cs" />
-    <Compile Include="Assets\Scripts\ILRuntimeHelp\ILRuntimeHelp.cs" />
-    <Compile Include="Assets\Scripts\Launch.cs" />
-    <Compile Include="Assets\Scripts\Manager@Hotfix\ILifeCycle.cs" />
-    <Compile Include="Assets\Scripts\Manager@Hotfix\ManagerBase.cs" />
-    <Compile Include="Assets\Scripts\Manager@Hotfix\TimeManager.cs" />
-    <Compile Include="Assets\Scripts\Manager@Hotfix\UIManager.cs" />
-    <Compile Include="Assets\ThridPartys\ILRuntime\Generated\CLRBindings.cs" />
+    <Compile Include="Assets\Scripts\Code\ILRuntimeHelp\BindingCode\CLRBindings.cs" />
+    <Compile Include="Assets\Scripts\Code\ILRuntimeHelp\BindingCode\System_Int32_Binding.cs" />
+    <Compile Include="Assets\Scripts\Code\ILRuntimeHelp\BindingCode\System_Int64_Binding.cs" />
+    <Compile Include="Assets\Scripts\Code\ILRuntimeHelp\BindingCode\System_Object_Binding.cs" />
+    <Compile Include="Assets\Scripts\Code\ILRuntimeHelp\BindingCode\System_Single_Binding.cs" />
+    <Compile Include="Assets\Scripts\Code\ILRuntimeHelp\BindingCode\System_String_Binding.cs" />
+    <Compile Include="Assets\Scripts\Code\ILRuntimeHelp\ILRuntimeAdapterHelp.cs" />
+    <Compile Include="Assets\Scripts\Code\ILRuntimeHelp\ILRuntimeDelegateHelp.cs" />
+    <Compile Include="Assets\Scripts\Code\ILRuntimeHelp\ILRuntimeHelp.cs" />
+    <Compile Include="Assets\Scripts\Code\Launch.cs" />
+    <Compile Include="Assets\Scripts\Code\Tool\FunctionExpansion.cs" />
+    <Compile Include="Assets\Scripts\Code@Hotfix\Atrribute\UIAtrribute.cs" />
+    <Compile Include="Assets\Scripts\Code@Hotfix\HotfixLaunch.cs" />
+    <Compile Include="Assets\Scripts\Code@Hotfix\Manager\IAttribute.cs" />
+    <Compile Include="Assets\Scripts\Code@Hotfix\Manager\IManager.cs" />
+    <Compile Include="Assets\Scripts\Code@Hotfix\Manager\ManagerBase.cs" />
+    <Compile Include="Assets\Scripts\Code@Hotfix\Manager\ManagerBaseWithAttr.cs" />
+    <Compile Include="Assets\Scripts\Code@Hotfix\Manager\TimeManager.cs" />
+    <Compile Include="Assets\Scripts\Code@Hotfix\Manager\UIPanelManager.cs" />
+    <Compile Include="Assets\Scripts\Code@Hotfix\Manager\UIViewManager.cs" />
+    <Compile Include="Assets\Scripts\Code@Hotfix\TestClass.cs" />
+    <Compile Include="Assets\Scripts\Code@Hotfix\UI\IView.cs" />
+    <Compile Include="Assets\Scripts\Code@Hotfix\UI\Login\LoginPanel.cs" />
+    <Compile Include="Assets\Scripts\Code@Hotfix\UI\UIPanel.cs" />
+    <Compile Include="Assets\Scripts\Code@Hotfix\UI\UIView.cs" />
     <Compile Include="Assets\ThridPartys\ILRuntime\ILRuntime\CLR\Method\CLRMethod.cs" />
     <Compile Include="Assets\ThridPartys\ILRuntime\ILRuntime\CLR\Method\ExceptionHandler.cs" />
     <Compile Include="Assets\ThridPartys\ILRuntime\ILRuntime\CLR\Method\ILMethod.cs" />

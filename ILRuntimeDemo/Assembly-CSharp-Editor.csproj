@@ -62,9 +62,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Editor\BuildDll\ILRuntimeBuildWindow.cs" />
     <Compile Include="Assets\Editor\EditorToolMenu.cs" />
-    <Compile Include="Assets\Editor\ILRuntimeBind.cs" />
+    <Compile Include="Assets\Editor\ILRuntime\ILRuntimeWindow.cs" />
     <Reference Include="UnityEditor.TestRunner">
       <HintPath>D:/Project/Unity/Mine/ILRuntimeDemo/ILRuntimeDemo/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
     </Reference>
