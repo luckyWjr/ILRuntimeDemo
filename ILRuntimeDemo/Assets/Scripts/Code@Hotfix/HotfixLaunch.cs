@@ -96,9 +96,7 @@ namespace Hotfix
                 manager.Start();
             }
 
-            //UIPanelManager.Instance.ShowPanel<LoginPanel>(null);
-
-            Activator.CreateInstance(typeof(TestClass), "aaaa");
+            UIPanelManager.Instance.ShowPanel<LoginPanel>(null);
         }
 
         public static void Update()
