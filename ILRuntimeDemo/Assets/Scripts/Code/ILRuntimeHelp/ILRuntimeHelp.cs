@@ -9,6 +9,7 @@ namespace Tool
 	public class ILRuntimeHelp
 	{
         public static ILRuntime.Runtime.Enviorment.AppDomain appdomain;
+        static MemoryStream m_hotfixMemoryStream;
 
         public static IEnumerator LoadILRuntime(Action LoadedFinish)
         {
@@ -20,45 +21,35 @@ namespace Tool
 
             byte[] dll = null;
             if (webRequest.isNetworkError)
-            {
                 Debug.Log("Download Error:" + webRequest.error);
-            }
             else
-            {
                 dll = webRequest.downloadHandler.data;
-            }
-            //webRequest.Dispose();
 
-            //webRequest = UnityWebRequest.Get("file:///" + Application.streamingAssetsPath + "/hotfix_dll/Hotfix.pdb");
-            //yield return webRequest.SendWebRequest();
-
-            //byte[] pdb = null;
-            //if (webRequest.isNetworkError)
+            //用下面的会报错：ObjectDisposedException: Cannot access a closed Stream.
+            //using (MemoryStream fs = new MemoryStream(dll))
             //{
-            //    Debug.Log("Download Error:" + webRequest.error);
-            //}
-            //else
-            //{
-            //    pdb = webRequest.downloadHandler.data;
+            //    appdomain.LoadAssembly(fs);
             //}
 
-            using (MemoryStream fs = new MemoryStream(dll))
-            {
-                //using (MemoryStream p = new MemoryStream(pdb))
-                //{
-                    //appdomain.LoadAssembly(fs, p, new Mono.Cecil.Pdb.PdbReaderProvider());
-                appdomain.LoadAssembly(fs);
-                //}
-            }
+            m_hotfixMemoryStream = new MemoryStream(dll);
+            appdomain.LoadAssembly(m_hotfixMemoryStream);
 
             webRequest.Dispose();
             webRequest = null;
-
             ILRuntimeDelegateHelp.RegisterDelegate(appdomain);
             ILRuntimeAdapterHelp.RegisterCrossBindingAdaptor(appdomain);
             ILRuntime.Runtime.Generated.CLRBindings.Initialize(appdomain);
-            appdomain.DebugService.StartDebugService(56000);
+
+            //用于ILRuntime Debug
+            if (Application.isEditor)
+                appdomain.DebugService.StartDebugService(56000);
+
             LoadedFinish?.Invoke();
+        }
+
+        public static void Dispose()
+        {
+            m_hotfixMemoryStream?.Dispose();
         }
     }
 }

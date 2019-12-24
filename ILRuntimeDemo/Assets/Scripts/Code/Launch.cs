@@ -21,9 +21,7 @@ public class Launch : MonoBehaviour
     private void Start()
     {
         if(ILRuntimeCodeLoadMethod == AssetLoadMethod.StreamingAsset)
-        {
             StartCoroutine(ILRuntimeHelp.LoadILRuntime(OnILRuntimeInitialized));
-        }
         else
         {
             //不直接调用 Hotfix.HotfixLaunch.Start 是防止编译dll的时候找不到 Hotfix部分的Hotfix.HotfixLaunch类而报错
@@ -57,5 +55,8 @@ public class Launch : MonoBehaviour
     void OnApplicationQuit()
     {
         OnApplicationQuitAction?.Invoke();
+
+        ILRuntimeHelp.Dispose();
+        GC.Collect();
     }
 }
