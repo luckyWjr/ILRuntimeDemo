@@ -8,6 +8,8 @@ namespace Hotfix.Manager
 {
     public class UIPanelManager : ManagerBaseWithAttr<UIPanelManager, UIAttribute>
     {
+        public UIPanel currentPanel;
+
         Dictionary<string, UIPanel> m_UIPanelDic;
         Transform m_UICanvas;
 
@@ -42,7 +44,11 @@ namespace Hotfix.Manager
             {
                 panel = m_UIPanelDic[url];
                 if (!panel.isVisible && panel.isLoaded)
+                {
+                    currentPanel?.Hide();
                     panel.Show();
+                    currentPanel = panel;
+                }
                 else
                     Debug.Log("Window is in one of the[unload, visible] states：{0}" + url);
             }

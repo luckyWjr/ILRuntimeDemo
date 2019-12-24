@@ -22,9 +22,7 @@ namespace Hotfix
             {
                 var values = ILRuntimeHelp.appdomain.LoadedTypes.Values.ToList();
                 foreach (var v in values)
-                {
                     allTypes.Add(v.ReflectionType);
-                }
             }
             else
             {
@@ -73,17 +71,11 @@ namespace Hotfix
             }
 
             foreach (var t in allTypes)
-            {
                 foreach (var attr in attributeManagerList)
-                {
                     attr.CheckType(t);
-                }
-            }
 
             foreach (var manager in m_managerList)
-            {
                 manager.Init();
-            }
 
             //绑定生命周期方法
             Launch.OnUpdate = Update;
@@ -92,9 +84,7 @@ namespace Hotfix
             Launch.OnApplicationQuitAction = OnApplicationQuit;
 
             foreach (var manager in m_managerList)
-            {
                 manager.Start();
-            }
 
             UIPanelManager.Instance.ShowPanel<LoginPanel>(null);
         }
@@ -102,25 +92,19 @@ namespace Hotfix
         public static void Update()
         {
             foreach (var manager in m_managerList)
-            {
                 manager.Update();
-            }
         }
 
         public static void LateUpdate()
         {
             foreach (var manager in m_managerList)
-            {
                 manager.LateUpdate();
-            }
         }
 
         public static void FixedUpdate()
         {
             foreach (var manager in m_managerList)
-            {
                 manager.FixedUpdate();
-            }
         }
 
         public static void OnApplicationQuit()

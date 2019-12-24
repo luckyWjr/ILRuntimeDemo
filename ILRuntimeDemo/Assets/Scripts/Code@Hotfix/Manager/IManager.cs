@@ -1,5 +1,4 @@
-﻿using System;
-namespace Hotfix.Manager
+﻿namespace Hotfix.Manager
 {
     public interface IManager
     {

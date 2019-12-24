@@ -26,7 +26,7 @@ namespace Hotfix.UI
 
         void OnClick()
         {
-            Debug.Log("OnClickOnClickOnClickOnClick");
+            UIPanelManager.Instance.ShowPanel<MainPanel>();
         }
     }
 }

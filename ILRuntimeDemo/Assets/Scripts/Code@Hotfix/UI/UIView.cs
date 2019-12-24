@@ -5,21 +5,42 @@ namespace Hotfix.UI
 {
     public class UIView : IView
     {
-        string mUrl;
+        string m_url;
 
-        public bool isVisible;
         public GameObject gameObject { private set; get; }
         public Transform transform { private set; get; }
         public RectTransform rectTransform { private set; get; }
 
         public bool isLoaded { get { return gameObject != null; } }
+        public bool isVisible
+        {
+            get
+            {
+                return isLoaded && gameObject.activeSelf;
+            }
+            set
+            {
+                if (isLoaded)
+                    gameObject.SetActive(value);
+            }
+        }
 
         public UIView(string url)
         {
-            mUrl = url;
+            m_url = url;
         }
 
-        public virtual void Destroy()
+        public virtual void Init()
+        {
+            isVisible = false;
+        }
+
+        public virtual void Show()
+        {
+            isVisible = true;
+        }
+
+        public virtual void Update()
         {
         }
 
@@ -27,29 +48,22 @@ namespace Hotfix.UI
         {
         }
 
-        public virtual void Hide()
+        public virtual void Destroy()
         {
         }
 
-        public virtual void Init()
+        public virtual void Hide()
         {
+            isVisible = false;
         }
 
         public virtual void LateUpdate()
         {
         }
 
-        public virtual void Show()
-        {
-        }
-
-        public virtual void Update()
-        {
-        }
-
         public virtual void Load(Action callback = null)
         {
-            gameObject = GameObject.Instantiate(Resources.Load(mUrl)) as GameObject;
+            gameObject = GameObject.Instantiate(Resources.Load(m_url)) as GameObject;
             if (gameObject != null)
             {
                 transform = gameObject.transform;

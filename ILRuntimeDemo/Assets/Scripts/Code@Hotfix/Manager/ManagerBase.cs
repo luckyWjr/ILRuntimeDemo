@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Hotfix.Manager
+﻿namespace Hotfix.Manager
 {
     public class ManagerBase<T> : IManager where T : IManager, new()
     {
