@@ -8,9 +8,9 @@ namespace Hotfix.Manager
 {
     public class UIPanelManager : ManagerBaseWithAttr<UIPanelManager, UIAttribute>
     {
-        public UIPanel currentPanel;
+        public UIPanel currentPanel;//当前显示的页面
 
-        Dictionary<string, UIPanel> m_UIPanelDic;
+        Dictionary<string, UIPanel> m_UIPanelDic;//存放所有存在在场景中的UIPanel
         Transform m_UICanvas;
 
         public override void Init()
@@ -20,17 +20,28 @@ namespace Hotfix.Manager
             m_UICanvas = GameObject.Find("Canvas").transform;
         }
 
-        public override void Start()
+        public void ShowPanel<T>() where T : UIPanel
         {
-            base.Start();
+            ShowPanel<T>(null, null);
         }
 
-        public void ShowPanel<T>(Action<T> callback = null) where T : UIPanel
+        public void ShowPanel<T>(Action<T> callback) where T : UIPanel
+        {
+            ShowPanel(callback, null);
+        }
+
+        public void ShowPanel<T>(object data) where T : UIPanel
+        {
+            ShowPanel<T>(null, data);
+        }
+
+        //显示一个UIPanel，参数为回调和自定义传递数据
+        public void ShowPanel<T>(Action<T> callback, object data) where T : UIPanel
         {
             string url = GetUrl(typeof(T));
             if (!string.IsNullOrEmpty(url))
             {
-                LoadPanel(url, () =>
+                LoadPanel(url, data, () =>
                 {
                     var panel = ShowPanel(url);
                     callback?.Invoke(panel as T);
@@ -38,26 +49,29 @@ namespace Hotfix.Manager
             }
         }
 
+        //显示UIPanel
         UIPanel ShowPanel(string url)
         {
             if (m_UIPanelDic.TryGetValue(url, out UIPanel panel))
             {
                 panel = m_UIPanelDic[url];
-                if (!panel.isVisible && panel.isLoaded)
+                if (!panel.isVisible)
                 {
                     currentPanel?.Hide();
+                    panel.previousPanel = currentPanel;
                     panel.Show();
                     currentPanel = panel;
                 }
                 else
-                    Debug.Log("Window is in one of the[unload, visible] states：{0}" + url);
+                    Debug.Log("UIPanel is visible:" + url);
             }
             else
-                Debug.LogError("Window not loaded" + url);
+                Debug.LogError("UIPanel not loaded:" + url);
             return panel;
         }
 
-        public void LoadPanel(string url, Action callback)
+        //加载UIPanel对象
+        public void LoadPanel(string url, object data, Action callback)
         {
             if (m_UIPanelDic.TryGetValue(url, out UIPanel panel))
             {
@@ -68,9 +82,10 @@ namespace Hotfix.Manager
             {
                 panel = CreatePanel(url);
                 if (panel == null)
-                    Debug.LogError("Window not exist: " + url);
+                    Debug.LogError("UIPanel not exist: " + url);
                 else
                 {
+                    panel.data = data;
                     m_UIPanelDic[url] = panel;
                     panel.Load(() =>
                     {
@@ -86,19 +101,60 @@ namespace Hotfix.Manager
             }
         }
 
+        //实例化UIPanel对象
         UIPanel CreatePanel(string url)
         {
             var data = GetAtrributeData(url);
             if (data == null)
             {
-                Debug.LogError("Unregistered window, unable to load: " + url);
+                Debug.LogError("Unregistered UIPanel, unable to load: " + url);
                 return null;
             }
             var attr = data.attribute as UIAttribute;
             var panel = UIViewManager.Instance.CreateView(data.type, attr.value) as UIPanel;
+
+            ////或者
+            //var panel = CreateInstance<UIPanel>(url);
+            //UIViewManager.Instance.AddUIView(panel as UIView);
             return panel;
         }
 
+        //隐藏当前显示的UIPanel
+        public void HidePanel()
+        {
+            currentPanel.Hide();
+            //显示上一层页面
+            if (currentPanel.previousPanel != null && currentPanel.previousPanel.isLoaded)
+            {
+                currentPanel.previousPanel.Show();
+                currentPanel = currentPanel.previousPanel;
+            }
+        }
+
+        public void DestroyPanel<T>()
+        {
+            UnLoadPanel(GetUrl(typeof(T)));
+        }
+
+        void UnLoadPanel(string url)
+        {
+            if (m_UIPanelDic.TryGetValue(url, out UIPanel panel))
+            {
+                panel.Destroy();
+                m_UIPanelDic.Remove(url);
+            }
+            else
+                Debug.LogError("UIPanel not exist: " + url);
+        }
+
+        void UnLoadAllPanel()
+        {
+            foreach(var panel in m_UIPanelDic.Values)
+                panel.Destroy();
+            m_UIPanelDic.Clear();
+        }
+
+        //根据UIPanel的Type获取其对应的url
         string GetUrl(Type t)
         {
             foreach (var keyPairValue in m_atrributeDataDic)
@@ -106,6 +162,11 @@ namespace Hotfix.Manager
                     return keyPairValue.Key;
             Debug.LogError($"Cannot found type({t.Name})");
             return null;
+        }
+
+        public override void OnApplicationQuit()
+        {
+            UnLoadAllPanel();
         }
     }
 }

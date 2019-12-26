@@ -1,12 +1,12 @@
 ﻿using Hotfix.UI;
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Hotfix.Manager
 {
     public class UIViewManager : ManagerBase<UIViewManager>
     {
+        //存放所有在场景中的UIView
         List<UIView> m_UIViewList;
 
         public override void Init()
@@ -15,17 +15,21 @@ namespace Hotfix.Manager
             m_UIViewList = new List<UIView>();
         }
 
-        public override void Start()
-        {
-            base.Start();
-        }
-
         public override void Update()
         {
             base.Update();
 
             for (int i = 0; i < m_UIViewList.Count; i++)
             {
+                //销毁UIView
+                if (m_UIViewList[i].isWillDestroy)
+                {
+                    m_UIViewList[i].DestroyImmediately();
+                    m_UIViewList.RemoveAt(i);
+                    i--;
+                    continue;
+                }
+
                 if (m_UIViewList[i].isVisible)
                 {
                     m_UIViewList[i].Update();
@@ -64,26 +68,24 @@ namespace Hotfix.Manager
             return CreateView(typeof(T), url) as T;
         }
 
+        //创建UIView
         public UIView CreateView(Type type, params object[] args)
         {
-            //MissingMethodException: Constructor on type 'ILRuntime.Runtime.Intepreter.ILTypeInstance' not found.
             UIView view = Activator.CreateInstance(type, args) as UIView;
-            m_UIViewList.Add(view);
+            AddUIView(view);
             return view;
         }
 
-        //public UIView GetView<T>(string id) where T : UIView
-        //{
-        //    if (string.IsNullOrEmpty(id)) return null;
-        //    return m_UIViewList.Find(p => p.Id == id && !p.MaskAsDestroy);
-        //}
+        public void AddUIView(UIView view)
+        {
+            if (view != null)
+                m_UIViewList.Add(view);
+        }
 
         public void DestroyAll()
         {
             for (int i = 0; i < m_UIViewList.Count; i++)
-            {
                 m_UIViewList[i].Destroy();
-            }
         }
     }
 }

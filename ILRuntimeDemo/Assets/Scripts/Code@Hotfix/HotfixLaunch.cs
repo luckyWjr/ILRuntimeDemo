@@ -70,6 +70,7 @@ namespace Hotfix
                 }
             }
 
+            //遍历所有类和ManagerBaseWithAttr管理器，找出对应的被ManagerBaseWithAttr管理的子类。例如UIPanelManager和LoginPane的关系
             foreach (var t in allTypes)
                 foreach (var attr in attributeManagerList)
                     attr.CheckType(t);

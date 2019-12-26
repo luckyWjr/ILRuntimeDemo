@@ -1,5 +1,4 @@
 ﻿using Hotfix.Manager;
-using UnityEngine;
 using UnityEngine.UI;
 
 namespace Hotfix.UI
@@ -8,25 +7,24 @@ namespace Hotfix.UI
     public class LoginPanel : UIPanel
     {
         Button m_loginBtn;
-        Text m_hintText;
+        InputField m_userNameInput;
 
         public LoginPanel(string url) : base(url)
         {
-            Debug.Log("LoginPanel:" + url);
         }
 
         public override void Init()
         {
             base.Init();
-            m_loginBtn = transform.Find("Button").GetComponent<Button>();
-            m_hintText = transform.Find("Text").GetComponent<Text>();
+            m_loginBtn = transform.Find("LoginButton").GetComponent<Button>();
+            m_userNameInput = transform.Find("UserNameInputField").GetComponent<InputField>();
 
             m_loginBtn.onClick.AddListener(OnClick);
         }
 
         void OnClick()
         {
-            UIPanelManager.Instance.ShowPanel<MainPanel>();
+            UIPanelManager.Instance.ShowPanel<MainPanel>(m_userNameInput.text);
         }
     }
 }
