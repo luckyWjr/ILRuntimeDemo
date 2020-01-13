@@ -487,7 +487,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c77fb2835de3d574fb5aeacecba5b192, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ILRuntimeCodeLoadMethod: 0
+  ILRuntimeCodeLoadMethod: 1
 --- !u!4 &1519735089
 Transform:
   m_ObjectHideFlags: 0

@@ -85,7 +85,12 @@
     <Compile Include="Assets\Scripts\Code@Hotfix\UI\IView.cs" />
     <Compile Include="Assets\Scripts\Code@Hotfix\UI\Login\LoginPanel.cs" />
     <Compile Include="Assets\Scripts\Code@Hotfix\UI\Main\MainPanel.cs" />
+    <Compile Include="Assets\Scripts\Code@Hotfix\UI\Main\MessagePanel.cs" />
+    <Compile Include="Assets\Scripts\Code@Hotfix\UI\Main\View\AlbumView.cs" />
+    <Compile Include="Assets\Scripts\Code@Hotfix\UI\Main\View\InformationView.cs" />
+    <Compile Include="Assets\Scripts\Code@Hotfix\UI\Main\View\JournalView.cs" />
     <Compile Include="Assets\Scripts\Code@Hotfix\UI\Mall\MallPanel.cs" />
+    <Compile Include="Assets\Scripts\Code@Hotfix\UI\Mall\View\GoodsItemView.cs" />
     <Compile Include="Assets\Scripts\Code@Hotfix\UI\UIPanel.cs" />
     <Compile Include="Assets\Scripts\Code@Hotfix\UI\UIView.cs" />
     <Compile Include="Assets\ThridPartys\ILRuntime\ILRuntime\CLR\Method\CLRMethod.cs" />

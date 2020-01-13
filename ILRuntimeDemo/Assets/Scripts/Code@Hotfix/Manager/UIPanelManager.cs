@@ -55,15 +55,10 @@ namespace Hotfix.Manager
             if (m_UIPanelDic.TryGetValue(url, out UIPanel panel))
             {
                 panel = m_UIPanelDic[url];
-                if (!panel.isVisible)
-                {
-                    currentPanel?.Hide();
-                    panel.previousPanel = currentPanel;
-                    panel.Show();
-                    currentPanel = panel;
-                }
-                else
-                    Debug.Log("UIPanel is visible:" + url);
+                currentPanel?.Hide();
+                panel.previousPanel = currentPanel;
+                panel.Show();
+                currentPanel = panel;
             }
             else
                 Debug.LogError("UIPanel not loaded:" + url);
@@ -75,8 +70,11 @@ namespace Hotfix.Manager
         {
             if (m_UIPanelDic.TryGetValue(url, out UIPanel panel))
             {
-                if (panel.isLoaded)
-                    callback?.Invoke();
+                if (panel.isVisible)
+                    Debug.Log("UIPanel is visible:" + url);
+                else
+                    if (panel.isLoaded)
+                        callback?.Invoke();
             }
             else
             {
@@ -110,12 +108,11 @@ namespace Hotfix.Manager
                 Debug.LogError("Unregistered UIPanel, unable to load: " + url);
                 return null;
             }
-            var attr = data.attribute as UIAttribute;
-            var panel = UIViewManager.Instance.CreateView(data.type, attr.value) as UIPanel;
+            //var attr = data.attribute as UIAttribute;
+            //var panel = UIViewManager.Instance.CreateView(data.type, attr.value) as UIPanel;
 
-            ////或者
-            //var panel = CreateInstance<UIPanel>(url);
-            //UIViewManager.Instance.AddUIView(panel as UIView);
+            var panel = CreateInstance<UIPanel>(url);
+            UIViewManager.Instance.AddUIView(panel as UIView);
             return panel;
         }
 

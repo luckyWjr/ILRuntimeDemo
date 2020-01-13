@@ -5,12 +5,21 @@ namespace Hotfix.UI
 {
     public class UIView : IView
     {
-        //需要加载的prefab的路径，也作为唯一标识符
-        public string url { private set; get; }
-
         public GameObject gameObject { private set; get; }
         public Transform transform { private set; get; }
         public RectTransform rectTransform { private set; get; }
+
+        Transform m_parent;
+        public Transform parent
+        {
+            get { return m_parent; }
+            set
+            {
+                m_parent = value;
+                if (m_parent != null)
+                    transform?.SetParent(m_parent);
+            }
+        }
 
         //是否加载完成
         public bool isLoaded { get { return gameObject != null; } }
@@ -32,14 +41,45 @@ namespace Hotfix.UI
         //若为true，将在下一帧销毁gameobject
         internal bool isWillDestroy;
 
-        public UIView(string url)
+        public UIView()
         {
-            this.url = url;
+        }
+
+        public UIView(GameObject go)
+        {
+            SetGameObject(go);
+        }
+
+        public UIView(GameObject go, Transform parent)
+        {
+            SetGameObject(go, parent);
+        }
+
+        protected void SetGameObject(GameObject go, Transform parent = null)
+        {
+            gameObject = go;
+            if (gameObject == null)
+                return;
+            transform = gameObject.transform;
+            rectTransform = gameObject.GetComponent<RectTransform>();
+            this.parent = parent;
+        }
+
+        public void SetActive(bool isActive)
+        {
+            if (isActive)
+                Show();
+            else
+                Hide();
         }
 
         public virtual void Init()
         {
-            isVisible = false;
+            GetChild();
+        }
+
+        public virtual void GetChild()
+        {
         }
 
         public virtual void Show()
@@ -84,20 +124,6 @@ namespace Hotfix.UI
             gameObject = null;
             transform = null;
             rectTransform = null;
-        }
-
-        //加载prefab
-        public virtual void Load(Action callback = null)
-        {
-            gameObject = GameObject.Instantiate(Resources.Load(url)) as GameObject;
-            if (gameObject != null)
-            {
-                transform = gameObject.transform;
-                rectTransform = gameObject.GetComponent<RectTransform>();
-
-                Init();
-                callback?.Invoke();
-            }
         }
     }
 }

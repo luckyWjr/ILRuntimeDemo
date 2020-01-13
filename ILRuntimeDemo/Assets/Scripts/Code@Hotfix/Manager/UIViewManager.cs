@@ -1,6 +1,7 @@
 ﻿using Hotfix.UI;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Hotfix.Manager
 {
@@ -63,15 +64,21 @@ namespace Hotfix.Manager
             }
         }
 
-        public T CreateView<T>(string url) where T : UIView
+        public T CreateView<T>(GameObject go) where T : UIView
         {
-            return CreateView(typeof(T), url) as T;
+            return CreateView(typeof(T), go) as T;
+        }
+
+        public T CreateView<T>(GameObject go, RectTransform parent) where T : UIView
+        {
+            return CreateView(typeof(T), go, parent) as T;
         }
 
         //创建UIView
         public UIView CreateView(Type type, params object[] args)
         {
             UIView view = Activator.CreateInstance(type, args) as UIView;
+            view.Init();
             AddUIView(view);
             return view;
         }

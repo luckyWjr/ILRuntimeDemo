@@ -16,10 +16,16 @@ namespace Hotfix.UI
         public override void Init()
         {
             base.Init();
-            m_loginBtn = transform.Find("LoginButton").GetComponent<Button>();
-            m_userNameInput = transform.Find("UserNameInputField").GetComponent<InputField>();
 
             m_loginBtn.onClick.AddListener(OnClick);
+        }
+
+        public override void GetChild()
+        {
+            base.GetChild();
+
+            m_loginBtn = transform.Find("LoginButton").GetComponent<Button>();
+            m_userNameInput = transform.Find("UserNameInputField").GetComponent<InputField>();
         }
 
         void OnClick()

@@ -9,6 +9,7 @@ namespace Hotfix.UI
     {
         Text m_contentText;
         Button m_mallBtn;
+        Button m_messageBtn;
         Button m_logoutBtn;
 
         public MainPanel(string url) : base(url)
@@ -18,12 +19,19 @@ namespace Hotfix.UI
         public override void Init()
         {
             base.Init();
-            m_contentText = transform.Find("ContentText").GetComponent<Text>();
-            m_mallBtn = transform.Find("MallButton").GetComponent<Button>();
-            m_logoutBtn = transform.Find("LogoutButton").GetComponent<Button>();
 
             m_mallBtn.onClick.AddListener(OnMallBtnClick);
+            m_messageBtn.onClick.AddListener(OnMessageBtnClick);
             m_logoutBtn.onClick.AddListener(OnLogoutBtnClick);
+        }
+
+        public override void GetChild()
+        {
+            base.GetChild();
+            m_contentText = transform.Find("ContentText").GetComponent<Text>();
+            m_mallBtn = transform.Find("MallButton").GetComponent<Button>();
+            m_messageBtn = transform.Find("MessageButton").GetComponent<Button>();
+            m_logoutBtn = transform.Find("LogoutButton").GetComponent<Button>();
         }
 
         public override void Show()
@@ -37,11 +45,16 @@ namespace Hotfix.UI
             UIPanelManager.Instance.ShowPanel<MallPanel>();
         }
 
+        void OnMessageBtnClick()
+        {
+            UIPanelManager.Instance.ShowPanel<MessagePanel>();
+        }
+
         void OnLogoutBtnClick()
         {
             UIPanelManager.Instance.ShowPanel<LoginPanel>();
-            UIPanelManager.Instance.DestroyPanel<MallPanel>();
-            UIPanelManager.Instance.DestroyPanel<MainPanel>();
+            //UIPanelManager.Instance.DestroyPanel<MallPanel>();
+            //UIPanelManager.Instance.DestroyPanel<MainPanel>();
         }
     }
 }
