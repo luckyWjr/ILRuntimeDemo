@@ -76,7 +76,7 @@ namespace Hotfix.UI
 
         void OnCloseBtnClick()
         {
-            UIPanelManager.Instance.HidePanel();
+            Hide();
         }
     }
 }

@@ -11,18 +11,9 @@ namespace Hotfix.UI
         //UIPanel间的自定义传递数据
         public object data;
 
-        //前一个UIPanel，用于隐藏自己的时候，Show前者
-        public UIPanel previousPanel;
-
         public UIPanel(string url)
         {
             this.url = url;
-        }
-
-        public override void Destroy()
-        {
-            base.Destroy();
-            previousPanel = null;
         }
 
         //加载prefab

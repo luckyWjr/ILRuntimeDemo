@@ -55,8 +55,6 @@ namespace Hotfix.Manager
             if (m_UIPanelDic.TryGetValue(url, out UIPanel panel))
             {
                 panel = m_UIPanelDic[url];
-                currentPanel?.Hide();
-                panel.previousPanel = currentPanel;
                 panel.Show();
                 currentPanel = panel;
             }
@@ -114,18 +112,6 @@ namespace Hotfix.Manager
             var panel = CreateInstance<UIPanel>(url);
             UIViewManager.Instance.AddUIView(panel as UIView);
             return panel;
-        }
-
-        //隐藏当前显示的UIPanel
-        public void HidePanel()
-        {
-            currentPanel.Hide();
-            //显示上一层页面
-            if (currentPanel.previousPanel != null && currentPanel.previousPanel.isLoaded)
-            {
-                currentPanel.previousPanel.Show();
-                currentPanel = currentPanel.previousPanel;
-            }
         }
 
         public void DestroyPanel<T>()

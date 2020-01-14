@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace Hotfix.UI
@@ -10,6 +8,7 @@ namespace Hotfix.UI
         Text m_nameText;
         Button m_buyBtn;
 
+        //因为在Activator.CreateInstance实例化的时候，ugui.transform的Type为RectTransform
         public GoodsItemView(GameObject go, RectTransform parent) : base(go, parent)
         {
         }

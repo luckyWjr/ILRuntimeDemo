@@ -31,10 +31,5 @@ namespace Hotfix.UI
             m_sexText = transform.Find("SexList/ContentText").GetComponent<Text>();
             m_phoneText = transform.Find("PhoneList/ContentText").GetComponent<Text>();
         }
-
-        void OnBuyBtnClicked()
-        {
-            Debug.Log("m_nameText:"+ m_nameText.text);
-        }
     }
 }

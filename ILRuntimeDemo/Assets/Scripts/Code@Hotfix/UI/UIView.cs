@@ -117,9 +117,7 @@ namespace Hotfix.UI
         public void DestroyImmediately()
         {
             if (!isWillDestroy)
-            {
                 Destroy();
-            }
             GameObject.Destroy(gameObject);
             gameObject = null;
             transform = null;

@@ -82,6 +82,7 @@
     <Compile Include="Assets\Scripts\Code@Hotfix\Manager\TimeManager.cs" />
     <Compile Include="Assets\Scripts\Code@Hotfix\Manager\UIPanelManager.cs" />
     <Compile Include="Assets\Scripts\Code@Hotfix\Manager\UIViewManager.cs" />
+    <Compile Include="Assets\Scripts\Code@Hotfix\UI\Common\DialogPanel.cs" />
     <Compile Include="Assets\Scripts\Code@Hotfix\UI\IView.cs" />
     <Compile Include="Assets\Scripts\Code@Hotfix\UI\Login\LoginPanel.cs" />
     <Compile Include="Assets\Scripts\Code@Hotfix\UI\Main\MainPanel.cs" />
