@@ -42,17 +42,17 @@ namespace Hotfix.UI
 
         void OnMallBtnClick()
         {
-            UIPanelManager.Instance.ShowPanel<MallPanel>();
+            UIHelper.ShowPanel<MallPanel>();
         }
 
         void OnMessageBtnClick()
         {
-            UIPanelManager.Instance.ShowPanel<MessagePanel>();
+            UIHelper.ShowPanel<MessagePanel>();
         }
 
         void OnLogoutBtnClick()
         {
-            UIPanelManager.Instance.ShowPanel<LoginPanel>();
+            UIHelper.ShowPanel<LoginPanel>();
             //UIPanelManager.Instance.DestroyPanel<MallPanel>();
             //UIPanelManager.Instance.DestroyPanel<MainPanel>();
         }

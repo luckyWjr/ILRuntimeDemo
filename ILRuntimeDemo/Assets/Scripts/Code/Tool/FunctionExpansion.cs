@@ -21,12 +21,13 @@ namespace Tool
 
         public static void SetParentAndResetTrans(this RectTransform trans, Transform parent)
         {
-            trans.transform.SetParentAndResetTrans(parent);
+            trans.SetParent(parent);
             trans.ResetTrans();
         }
 
         public static void ResetTrans(this RectTransform trans)
         {
+            trans.transform.ResetTrans();
             trans.offsetMax = Vector2.zero;
             trans.offsetMin = Vector2.zero;
         }

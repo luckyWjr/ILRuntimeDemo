@@ -12,6 +12,7 @@ namespace Hotfix.Manager
 
         Dictionary<string, UIPanel> m_UIPanelDic;//存放所有存在在场景中的UIPanel
         Transform m_UICanvas;
+        public Transform uiPanelParent { get { return m_UICanvas; } }
 
         public override void Init()
         {
