@@ -87,7 +87,7 @@ namespace Hotfix
             foreach (var manager in m_managerList)
                 manager.Start();
 
-            UIPanelManager.Instance.ShowPanel<LoginPanel>(null);
+            UIHelper.ShowPanel<LoginPanel>();
         }
 
         public static void Update()

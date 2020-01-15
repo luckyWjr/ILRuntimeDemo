@@ -17,24 +17,19 @@ namespace Hotfix.UI
         static GameObject m_dialogViewPrefab;
 
         #region ShowPanel Method
-        public static void ShowPanel<T>() where T : UIPanel
+        public static void ShowPanel<T>(EUIPanelDepth depth) where T : UIPanel
         {
-            UIPanelManager.Instance.ShowPanel<T>();
+            ShowPanel<T>(depth, null, null);
         }
 
-        public static void ShowPanel<T>(Action<T> callback) where T : UIPanel
+        public static void ShowPanel<T>(EUIPanelDepth depth, Action<T> callback) where T : UIPanel
         {
-            UIPanelManager.Instance.ShowPanel<T>(callback);
+            ShowPanel<T>(depth, callback, null);
         }
 
-        public static void ShowPanel<T>(object data) where T : UIPanel
+        public static void ShowPanel<T>(EUIPanelDepth depth = EUIPanelDepth.Default, Action<T> callback = null, object data = null) where T : UIPanel
         {
-            UIPanelManager.Instance.ShowPanel<T>(data);
-        }
-
-        public static void ShowPanel<T>(Action<T> callback, object data) where T : UIPanel
-        {
-            UIPanelManager.Instance.ShowPanel<T>(callback, data);
+            UIPanelManager.Instance.ShowPanel<T>(depth, callback, data);
         }
         #endregion
 

@@ -16,6 +16,12 @@ namespace Hotfix.UI
             this.url = url;
         }
 
+        public override void Show()
+        {
+            base.Show();
+            rectTransform.SetAsLastSibling();
+        }
+
         //加载prefab
         public virtual void Load(Action callback = null)
         {

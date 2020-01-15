@@ -6,43 +6,43 @@ using Hotfix.UI;
 
 namespace Hotfix.Manager
 {
+    public enum EUIPanelDepth
+    {
+        Default,
+        Banner,
+        Dialog,
+    }
+
     public class UIPanelManager : ManagerBaseWithAttr<UIPanelManager, UIAttribute>
     {
         public UIPanel currentPanel;//当前显示的页面
 
         Dictionary<string, UIPanel> m_UIPanelDic;//存放所有存在在场景中的UIPanel
-        Transform m_UICanvas;
-        public Transform uiPanelParent { get { return m_UICanvas; } }
+
+        Transform m_defaultCanvas;
+        public Transform defaultCanvas { get { return m_defaultCanvas; } }
+        Transform m_bannerCanvas;
+        public Transform bannerCanvas { get { return m_bannerCanvas; } }
+        Transform m_dialogCanvas;
+        public Transform dialogCanvas { get { return m_dialogCanvas; } }
 
         public override void Init()
         {
             base.Init();
             m_UIPanelDic = new Dictionary<string, UIPanel>();
-            m_UICanvas = GameObject.Find("Canvas").transform;
-        }
 
-        public void ShowPanel<T>() where T : UIPanel
-        {
-            ShowPanel<T>(null, null);
-        }
-
-        public void ShowPanel<T>(Action<T> callback) where T : UIPanel
-        {
-            ShowPanel(callback, null);
-        }
-
-        public void ShowPanel<T>(object data) where T : UIPanel
-        {
-            ShowPanel<T>(null, data);
+            m_defaultCanvas = GameObject.Find("UI/DefaultCanvas").transform;
+            m_bannerCanvas = GameObject.Find("UI/BannerCanvas").transform;
+            m_dialogCanvas = GameObject.Find("UI/DialogCanvas").transform;
         }
 
         //显示一个UIPanel，参数为回调和自定义传递数据
-        public void ShowPanel<T>(Action<T> callback, object data) where T : UIPanel
+        public void ShowPanel<T>(EUIPanelDepth depth, Action<T> callback, object data) where T : UIPanel
         {
             string url = GetUrl(typeof(T));
             if (!string.IsNullOrEmpty(url))
             {
-                LoadPanel(url, data, () =>
+                LoadPanel(depth, url, data, () =>
                 {
                     var panel = ShowPanel(url);
                     callback?.Invoke(panel as T);
@@ -65,7 +65,7 @@ namespace Hotfix.Manager
         }
 
         //加载UIPanel对象
-        public void LoadPanel(string url, object data, Action callback)
+        public void LoadPanel(EUIPanelDepth depth, string url, object data, Action callback)
         {
             if (m_UIPanelDic.TryGetValue(url, out UIPanel panel))
             {
@@ -88,7 +88,10 @@ namespace Hotfix.Manager
                     {
                         if (panel.isLoaded)
                         {
-                            panel.rectTransform.SetParentAndResetTrans(m_UICanvas);
+                            if(depth == EUIPanelDepth.Banner)
+                                panel.rectTransform.SetParentAndResetTrans(m_bannerCanvas);
+                            else
+                                panel.rectTransform.SetParentAndResetTrans(m_defaultCanvas);
                             callback?.Invoke();
                         }
                         else

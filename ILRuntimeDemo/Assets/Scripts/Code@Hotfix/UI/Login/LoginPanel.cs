@@ -30,7 +30,7 @@ namespace Hotfix.UI
 
         void OnClick()
         {
-            UIPanelManager.Instance.ShowPanel<MainPanel>(m_userNameInput.text);
+            UIHelper.ShowPanel<MainPanel>(EUIPanelDepth.Default, null, m_userNameInput.text);
         }
     }
 }
