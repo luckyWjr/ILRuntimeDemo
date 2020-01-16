@@ -21,7 +21,7 @@ namespace Hotfix.UI
 
         public DialogView(GameObject go) : base(go)
         {
-            parent = UIPanelManager.Instance.dialogCanvas;
+            parent = UIPanelManager.Instance.popupCanvas;
             rectTransform.ResetTrans();
         }
 

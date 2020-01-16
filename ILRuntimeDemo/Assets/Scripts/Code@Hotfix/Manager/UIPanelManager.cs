@@ -10,7 +10,7 @@ namespace Hotfix.Manager
     {
         Default,
         Banner,
-        Dialog,
+        Popup,
     }
 
     public class UIPanelManager : ManagerBaseWithAttr<UIPanelManager, UIAttribute>
@@ -23,8 +23,8 @@ namespace Hotfix.Manager
         public Transform defaultCanvas { get { return m_defaultCanvas; } }
         Transform m_bannerCanvas;
         public Transform bannerCanvas { get { return m_bannerCanvas; } }
-        Transform m_dialogCanvas;
-        public Transform dialogCanvas { get { return m_dialogCanvas; } }
+        Transform m_popupCanvas;
+        public Transform popupCanvas { get { return m_popupCanvas; } }
 
         public override void Init()
         {
@@ -33,7 +33,7 @@ namespace Hotfix.Manager
 
             m_defaultCanvas = GameObject.Find("UI/DefaultCanvas").transform;
             m_bannerCanvas = GameObject.Find("UI/BannerCanvas").transform;
-            m_dialogCanvas = GameObject.Find("UI/DialogCanvas").transform;
+            m_popupCanvas = GameObject.Find("UI/PopupCanvas").transform;
         }
 
         //显示一个UIPanel，参数为回调和自定义传递数据
