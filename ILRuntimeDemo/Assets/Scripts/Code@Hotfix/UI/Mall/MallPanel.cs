@@ -8,7 +8,6 @@ namespace Hotfix.UI
     [UI("MallPanel")]
     public class MallPanel : UIPanel
     {
-        Button m_closeBtn;
         ScrollRect m_scrollRect;
         GridLayoutGroup m_grid;
 
@@ -22,8 +21,6 @@ namespace Hotfix.UI
         {
             base.Init();
             
-            m_closeBtn.onClick.AddListener(OnCloseBtnClick);
-
             m_mallList.Add("明装");
             m_mallList.Add("燕尔");
             m_mallList.Add("西狩获麟");
@@ -47,14 +44,9 @@ namespace Hotfix.UI
         {
             base.GetChild();
 
-            m_closeBtn = transform.Find("CloseButton").GetComponent<Button>();
             m_scrollRect = transform.Find("Scroll View").GetComponent<ScrollRect>();
             m_grid = transform.Find("Scroll View/Viewport/Content").GetComponent<GridLayoutGroup>();
         }
 
-        void OnCloseBtnClick()
-        {
-            Hide();
-        }
     }
 }

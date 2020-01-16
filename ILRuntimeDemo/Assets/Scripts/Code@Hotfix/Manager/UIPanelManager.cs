@@ -118,6 +118,11 @@ namespace Hotfix.Manager
             return panel;
         }
 
+        public void HidePanel()
+        {
+            currentPanel?.Hide();
+        }
+
         public void DestroyPanel<T>()
         {
             UnLoadPanel(GetUrl(typeof(T)));

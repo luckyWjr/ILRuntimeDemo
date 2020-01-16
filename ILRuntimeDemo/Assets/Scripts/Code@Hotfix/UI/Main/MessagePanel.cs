@@ -7,8 +7,6 @@ namespace Hotfix.UI
     [UI("MessagePanel")]
     public class MessagePanel : UIPanel
     {
-        Button m_closeBtn;
-
         Toggle m_informationToggle;
         Toggle m_albumToggle;
         Toggle m_journalToggle;
@@ -28,14 +26,11 @@ namespace Hotfix.UI
             m_informationToggle.onValueChanged.AddListener(OnInformationToggleClicked);
             m_albumToggle.onValueChanged.AddListener(OnAlbumToggleClicked);
             m_journalToggle.onValueChanged.AddListener(OnJournalToggleClicked);
-
-            m_closeBtn.onClick.AddListener(OnCloseBtnClick);
         }
 
         public override void GetChild()
         {
             base.GetChild();
-            m_closeBtn = transform.Find("CloseButton").GetComponent<Button>();
 
             m_informationToggle = transform.Find("Group/InformationToggle").GetComponent<Toggle>();
             m_albumToggle = transform.Find("Group/AlbumToggle").GetComponent<Toggle>();
@@ -72,11 +67,6 @@ namespace Hotfix.UI
             m_InformationView.SetActive((4 & value) > 0);//100
             m_albumView.SetActive((2 & value) > 0);//010
             m_journalView.SetActive((1 & value) > 0);//001
-        }
-
-        void OnCloseBtnClick()
-        {
-            Hide();
         }
     }
 }
