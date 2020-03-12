@@ -36,9 +36,9 @@ namespace Hotfix.UI
             m_albumToggle = transform.Find("Group/AlbumToggle").GetComponent<Toggle>();
             m_journalToggle = transform.Find("Group/JournalToggle").GetComponent<Toggle>();
 
-            m_InformationView = UIViewManager.Instance.CreateView<InformationView>(transform.Find("Content/InformationContent").gameObject);
-            m_albumView = UIViewManager.Instance.CreateView<AlbumView>(transform.Find("Content/AlbumContent").gameObject);
-            m_journalView = UIViewManager.Instance.CreateView<JournalView>(transform.Find("Content/JournalContent").gameObject);
+            m_InformationView = UIViewManager.instance.CreateView<InformationView>(transform.Find("Content/InformationContent").gameObject);
+            m_albumView = UIViewManager.instance.CreateView<AlbumView>(transform.Find("Content/AlbumContent").gameObject);
+            m_journalView = UIViewManager.instance.CreateView<JournalView>(transform.Find("Content/JournalContent").gameObject);
         }
 
         public override void Show()

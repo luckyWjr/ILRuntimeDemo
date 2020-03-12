@@ -27,7 +27,7 @@ namespace Hotfix.UI
 
         void OnBackButtonClicked()
         {
-            UIPanelManager.Instance.HidePanel();
+            UIPanelManager.instance.HidePanel();
         }
     }
 }

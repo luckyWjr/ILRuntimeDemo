@@ -50,14 +50,14 @@ namespace Hotfix
                         if (t.BaseType.FullName.Contains(".ManagerBase`"))
                         {
                             Debug.Log("加载管理器-" + t);
-                            var manager = t.BaseType.GetProperty("Instance").GetValue(null, null) as IManager;
+                            var manager = t.BaseType.GetProperty("instance").GetValue(null, null) as IManager;
                             m_managerList.Add(manager);
                             continue;
                         }
                         else if (t.BaseType.FullName.Contains(".ManagerBaseWithAttr`"))
                         {
                             Debug.Log("加载管理器-" + t);
-                            var manager = t.BaseType.BaseType.GetProperty("Instance").GetValue(null, null) as IManager;
+                            var manager = t.BaseType.BaseType.GetProperty("instance").GetValue(null, null) as IManager;
                             m_managerList.Add(manager);
                             attributeManagerList.Add(manager as IAttribute);
                             continue;

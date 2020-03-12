@@ -2,17 +2,17 @@
 {
     public class ManagerBase<T> : IManager where T : IManager, new()
     {
-        protected static T mInstance;
+        protected static T m_instance;
 
-        public static T Instance
+        public static T instance
         {
             get
             {
-                if (mInstance == null)
+                if (m_instance == null)
                 {
-                    mInstance = new T();
+                    m_instance = new T();
                 }
-                return mInstance;
+                return m_instance;
             }
         }
 

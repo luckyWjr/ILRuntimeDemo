@@ -34,7 +34,7 @@ namespace Hotfix.UI
             {
                 GameObject go = GameObject.Instantiate(itemAsset) as GameObject;
                 //m_grid.transform is RectTransform
-                GoodsItemView view = UIViewManager.Instance.CreateView<GoodsItemView>(go, m_grid.transform as RectTransform);
+                GoodsItemView view = UIViewManager.instance.CreateView<GoodsItemView>(go, m_grid.transform as RectTransform);
                 view.Setting(m_mallList[i]);
                 view.Show();
             }

@@ -29,7 +29,7 @@ namespace Hotfix.UI
 
         public static void ShowPanel<T>(EUIPanelDepth depth = EUIPanelDepth.Default, Action<T> callback = null, object data = null) where T : UIPanel
         {
-            UIPanelManager.Instance.ShowPanel<T>(depth, callback, data);
+            UIPanelManager.instance.ShowPanel<T>(depth, callback, data);
         }
         #endregion
 
@@ -48,7 +48,7 @@ namespace Hotfix.UI
                 m_dialogViewPrefab = Resources.Load("DialogView") as GameObject;
 
             GameObject go = GameObject.Instantiate(m_dialogViewPrefab) as GameObject;
-            DialogView view = UIViewManager.Instance.CreateView<DialogView>(go);
+            DialogView view = UIViewManager.instance.CreateView<DialogView>(go);
             view.Setting(type, title, content, confirmCallback);
             view.Show();
         }

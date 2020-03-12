@@ -114,7 +114,7 @@ namespace Hotfix.Manager
             //var panel = UIViewManager.Instance.CreateView(data.type, attr.value) as UIPanel;
 
             var panel = CreateInstance<UIPanel>(url);
-            UIViewManager.Instance.AddUIView(panel as UIView);
+            UIViewManager.instance.AddUIView(panel as UIView);
             return panel;
         }
 
