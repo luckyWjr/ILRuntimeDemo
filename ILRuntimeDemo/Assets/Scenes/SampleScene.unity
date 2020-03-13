@@ -717,6 +717,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1519735089}
   - component: {fileID: 1519735088}
+  - component: {fileID: 1519735090}
   m_Layer: 0
   m_Name: Config
   m_TagString: Untagged
@@ -736,7 +737,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c77fb2835de3d574fb5aeacecba5b192, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ILRuntimeCodeLoadMethod: 0
+  ILRuntimeCodeLoadMethod: 1
 --- !u!4 &1519735089
 Transform:
   m_ObjectHideFlags: 0
@@ -751,3 +752,15 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1519735090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519735087}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d2f53f4198dea649bf011c158a17b0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

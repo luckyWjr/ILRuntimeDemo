@@ -1,6 +1,8 @@
-﻿using Hotfix.Manager;
+﻿using System.Collections;
+using Hotfix.Manager;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 namespace Hotfix.UI
 {
@@ -10,6 +12,7 @@ namespace Hotfix.UI
         Text m_contentText;
         Button m_mallBtn;
         Button m_messageBtn;
+        Button m_startBtn;
         Button m_logoutBtn;
 
         public MainPanel(string url) : base(url)
@@ -22,6 +25,7 @@ namespace Hotfix.UI
 
             m_mallBtn.onClick.AddListener(OnMallBtnClick);
             m_messageBtn.onClick.AddListener(OnMessageBtnClick);
+            m_startBtn.onClick.AddListener(OnStartBtnClick);
             m_logoutBtn.onClick.AddListener(OnLogoutBtnClick);
 
             UIHelper.ShowPanel<BannerPanel>(EUIPanelDepth.Banner);
@@ -33,6 +37,7 @@ namespace Hotfix.UI
             m_contentText = transform.Find("ContentText").GetComponent<Text>();
             m_mallBtn = transform.Find("MallButton").GetComponent<Button>();
             m_messageBtn = transform.Find("MessageButton").GetComponent<Button>();
+            m_startBtn = transform.Find("StartButton").GetComponent<Button>();
             m_logoutBtn = transform.Find("LogoutButton").GetComponent<Button>();
         }
 
@@ -50,6 +55,11 @@ namespace Hotfix.UI
         void OnMessageBtnClick()
         {
             UIHelper.ShowPanel<MessagePanel>();
+        }
+
+        void OnStartBtnClick()
+        {
+            SceneLoadManager.instance.LoadScene(GlobalDefine.GAME_SCENE_NAME);
         }
 
         void OnLogoutBtnClick()
