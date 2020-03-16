@@ -10,6 +10,7 @@ namespace Hotfix.Manager
     {
         Default,
         Banner,
+        Loading,
         Popup,
     }
 
@@ -19,10 +20,13 @@ namespace Hotfix.Manager
 
         Dictionary<string, UIPanel> m_UIPanelDic;//存放所有存在在场景中的UIPanel
 
+        Transform m_uiRoot;
         Transform m_defaultCanvas;
         public Transform defaultCanvas { get { return m_defaultCanvas; } }
         Transform m_bannerCanvas;
         public Transform bannerCanvas { get { return m_bannerCanvas; } }
+        Transform m_loadingCanvas;
+        public Transform loadingCanvas { get { return m_loadingCanvas; } }
         Transform m_popupCanvas;
         public Transform popupCanvas { get { return m_popupCanvas; } }
 
@@ -31,16 +35,18 @@ namespace Hotfix.Manager
             base.Init();
             m_UIPanelDic = new Dictionary<string, UIPanel>();
 
-            m_defaultCanvas = GameObject.Find("UI/DefaultCanvas").transform;
-            m_bannerCanvas = GameObject.Find("UI/BannerCanvas").transform;
-            m_popupCanvas = GameObject.Find("UI/PopupCanvas").transform;
+            m_uiRoot = GameObject.Find(GlobalDefine.UI_ROOT_NAME).transform;
+            GameObject.DontDestroyOnLoad(m_uiRoot);
+            m_defaultCanvas = GameObject.Find(GlobalDefine.UI_DEFAULT_CANVAS_NAME).transform;
+            m_bannerCanvas = GameObject.Find(GlobalDefine.UI_BANNER_CANVAS_NAME).transform;
+            m_loadingCanvas = GameObject.Find(GlobalDefine.UI_LOADING_CANVAS_NAME).transform;
+            m_popupCanvas = GameObject.Find(GlobalDefine.UI_POPUP_CANVAS_NAME).transform;
         }
 
         //显示一个UIPanel，参数为回调和自定义传递数据
-        public void ShowPanel<T>(EUIPanelDepth depth, Action<T> callback, object data) where T : UIPanel
+        public void ShowPanel<T>(Action<T> callback, object data) where T : UIPanel
         {
-            string url = GetUrl(typeof(T));
-            if (!string.IsNullOrEmpty(url))
+            if(GetUrlAndDepth(typeof(T), out string url, out EUIPanelDepth depth));
             {
                 LoadPanel(depth, url, data, () =>
                 {
@@ -90,6 +96,8 @@ namespace Hotfix.Manager
                         {
                             if(depth == EUIPanelDepth.Banner)
                                 panel.rectTransform.SetParentAndResetTrans(m_bannerCanvas);
+                            else if(depth == EUIPanelDepth.Loading)
+                                panel.rectTransform.SetParentAndResetTrans(m_loadingCanvas);
                             else
                                 panel.rectTransform.SetParentAndResetTrans(m_defaultCanvas);
                             callback?.Invoke();
@@ -146,7 +154,7 @@ namespace Hotfix.Manager
             m_UIPanelDic.Clear();
         }
 
-        //根据UIPanel的Type获取其对应的url
+        //根据UIPanel的Type获取其对应的url和depth
         string GetUrl(Type t)
         {
             foreach (var keyPairValue in m_atrributeDataDic)
@@ -154,6 +162,27 @@ namespace Hotfix.Manager
                     return keyPairValue.Key;
             Debug.LogError($"Cannot found type({t.Name})");
             return null;
+        }
+        
+        bool GetUrlAndDepth(Type t, out string url, out EUIPanelDepth depth)
+        {
+            url = "";
+            depth = EUIPanelDepth.Default;
+            foreach (var keyPairValue in m_atrributeDataDic)
+            {
+                if (keyPairValue.Value.type == t)
+                {
+                    UIAttribute attr = keyPairValue.Value.attribute as UIAttribute;
+                    if (attr != null)
+                    {
+                        url = attr.value;
+                        depth = attr.depth;
+                        return true;
+                    }
+                }
+            }
+            Debug.LogError($"Cannot found type({t.Name})");
+            return false;
         }
 
         public override void OnApplicationQuit()

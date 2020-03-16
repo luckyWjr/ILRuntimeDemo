@@ -20,6 +20,8 @@ public class Launch : MonoBehaviour
 
     private void Start()
     {
+        DontDestroyOnLoad(gameObject);
+        
         if(ILRuntimeCodeLoadMethod == AssetLoadMethod.StreamingAsset)
             StartCoroutine(ILRuntimeHelp.LoadILRuntime(OnILRuntimeInitialized));
         else

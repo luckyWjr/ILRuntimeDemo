@@ -1,27 +1,19 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Tool
 {
 	public class MonoBehaviourInstance<T> : MonoBehaviour
 	{
 		public static T instance { get; private set; }
-		// static T m_instance;
-
-		// public static T instance
-		// {
-		// 	get{
-		// 		if (m_instance == null)
-		// 		{
-		// 			m_instance = GetComponent<T>();
-		// 		}
-		// 		return m_instance;
-		// 	}
-		// }
+		
 		void Awake()
 		{
+			if(instance != null)
+			{
+				//防止挂载了多个相同的组件
+				DestroyImmediate(gameObject);
+				return;
+			}
 			instance = GetComponent<T>();
 		}
 	}

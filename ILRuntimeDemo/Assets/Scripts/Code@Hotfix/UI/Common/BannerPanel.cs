@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace Hotfix.UI
 {
-    [UI("BannerPanel")]
+    [UI("BannerPanel", EUIPanelDepth.Banner)]
     public class BannerPanel : UIPanel
     {
         Button m_backButton;

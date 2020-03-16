@@ -28,7 +28,7 @@ namespace Hotfix.UI
             m_startBtn.onClick.AddListener(OnStartBtnClick);
             m_logoutBtn.onClick.AddListener(OnLogoutBtnClick);
 
-            UIHelper.ShowPanel<BannerPanel>(EUIPanelDepth.Banner);
+            UIHelper.ShowPanel<BannerPanel>();
         }
 
         public override void GetChild()
