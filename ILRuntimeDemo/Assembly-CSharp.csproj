@@ -88,6 +88,8 @@
      <Compile Include="Assets\Scripts\Code@Hotfix\Scene\SceneLoad.cs" />
      <Compile Include="Assets\Scripts\Code@Hotfix\UI\Common\BannerPanel.cs" />
      <Compile Include="Assets\Scripts\Code@Hotfix\UI\Common\DialogView.cs" />
+     <Compile Include="Assets\Scripts\Code@Hotfix\UI\Common\LoadingPanel.cs" />
+     <Compile Include="Assets\Scripts\Code@Hotfix\UI\Game\GamePanel.cs" />
      <Compile Include="Assets\Scripts\Code@Hotfix\UI\IView.cs" />
      <Compile Include="Assets\Scripts\Code@Hotfix\UI\Login\LoginPanel.cs" />
      <Compile Include="Assets\Scripts\Code@Hotfix\UI\Main\MainPanel.cs" />

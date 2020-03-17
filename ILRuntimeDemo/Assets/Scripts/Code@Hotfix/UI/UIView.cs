@@ -41,6 +41,9 @@ namespace Hotfix.UI
         //若为true，将在下一帧销毁gameobject
         internal bool isWillDestroy;
 
+        //在load scene的时候是否销毁
+        public bool isDontDestroyOnLoad;
+
         public UIView()
         {
         }

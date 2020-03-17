@@ -46,9 +46,9 @@ namespace Hotfix.Manager
         //显示一个UIPanel，参数为回调和自定义传递数据
         public void ShowPanel<T>(Action<T> callback, object data) where T : UIPanel
         {
-            if(GetUrlAndDepth(typeof(T), out string url, out EUIPanelDepth depth));
+            if(GetUIMessage(typeof(T), out string url, out EUIPanelDepth depth, out bool isDontDestroyOnLoad));
             {
-                LoadPanel(depth, url, data, () =>
+                LoadPanel(url, depth, isDontDestroyOnLoad, data, () =>
                 {
                     var panel = ShowPanel(url);
                     callback?.Invoke(panel as T);
@@ -64,6 +64,7 @@ namespace Hotfix.Manager
                 panel = m_UIPanelDic[url];
                 panel.Show();
                 currentPanel = panel;
+                Debug.Log("currentPanel:"+currentPanel);
             }
             else
                 Debug.LogError("UIPanel not loaded:" + url);
@@ -71,7 +72,7 @@ namespace Hotfix.Manager
         }
 
         //加载UIPanel对象
-        public void LoadPanel(EUIPanelDepth depth, string url, object data, Action callback)
+        public void LoadPanel(string url, EUIPanelDepth depth, bool isDontDestroyOnLoad,object data, Action callback)
         {
             if (m_UIPanelDic.TryGetValue(url, out UIPanel panel))
             {
@@ -89,6 +90,7 @@ namespace Hotfix.Manager
                 else
                 {
                     panel.data = data;
+                    panel.isDontDestroyOnLoad = isDontDestroyOnLoad;
                     m_UIPanelDic[url] = panel;
                     panel.Load(() =>
                     {
@@ -122,18 +124,30 @@ namespace Hotfix.Manager
             //var panel = UIViewManager.Instance.CreateView(data.type, attr.value) as UIPanel;
 
             var panel = CreateInstance<UIPanel>(url);
-            UIViewManager.instance.AddUIView(panel as UIView);
+            UIViewManager.instance.AddUIView(panel);
             return panel;
         }
 
         public void HidePanel()
         {
+            Debug.Log("HidePanel:"+currentPanel);
             currentPanel?.Hide();
         }
 
         public void DestroyPanel<T>()
         {
             UnLoadPanel(GetUrl(typeof(T)));
+        }
+
+        public void UnLoadPanelOnLoadScene()
+        {
+            List<string> list = new List<string>();
+            foreach (var panel in m_UIPanelDic.Values)
+                if (!panel.isDontDestroyOnLoad)
+                    list.Add(panel.url);
+            
+            foreach (var url in list)
+                UnLoadPanel(url);
         }
 
         void UnLoadPanel(string url)
@@ -164,10 +178,11 @@ namespace Hotfix.Manager
             return null;
         }
         
-        bool GetUrlAndDepth(Type t, out string url, out EUIPanelDepth depth)
+        bool GetUIMessage(Type t, out string url, out EUIPanelDepth depth, out bool isDontDestroyOnLoad)
         {
             url = "";
             depth = EUIPanelDepth.Default;
+            isDontDestroyOnLoad = false;
             foreach (var keyPairValue in m_atrributeDataDic)
             {
                 if (keyPairValue.Value.type == t)
@@ -177,6 +192,7 @@ namespace Hotfix.Manager
                     {
                         url = attr.value;
                         depth = attr.depth;
+                        isDontDestroyOnLoad = attr.isDontDestroyOnLoad;
                         return true;
                     }
                 }
