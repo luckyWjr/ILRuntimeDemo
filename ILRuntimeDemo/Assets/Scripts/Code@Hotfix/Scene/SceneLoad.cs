@@ -91,6 +91,7 @@ namespace Hotfix
 		protected virtual void OnPreLoadScene()
 		{
 			UIPanelManager.instance.UnLoadPanelOnLoadScene();
+			UIViewManager.instance.DestroyViewOnLoadScene();
 		}
 		
 		//更新总进度

@@ -18,7 +18,6 @@ namespace Hotfix
 			base.RegisterAllLoadTask();
 			RegisterLoadTask(LoadTask1);
 			RegisterLoadTask(LoadTask2);
-			RegisterLoadTask(LoadTask3);
 		}
 
 		void LoadTask1(Action<float> callback)
@@ -52,11 +51,6 @@ namespace Hotfix
 			callback(1);
 		}
 		
-		void LoadTask3(Action<float> callback)
-		{
-			callback(1);
-		}
-
 		protected override void OnLoadFinish()
 		{
 			base.OnLoadFinish();

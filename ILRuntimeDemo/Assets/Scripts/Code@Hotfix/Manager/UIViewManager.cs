@@ -91,8 +91,15 @@ namespace Hotfix.Manager
 
         public void DestroyAll()
         {
-            for (int i = 0; i < m_UIViewList.Count; i++)
+            for (int i = m_UIViewList.Count - 1; i >= 0 ; i--)
                 m_UIViewList[i].Destroy();
+        }
+        
+        public void DestroyViewOnLoadScene()
+        {
+            for (int i = m_UIViewList.Count - 1; i >= 0 ; i--)
+                if(!m_UIViewList[i].isDontDestroyOnLoad)
+                    m_UIViewList[i].Destroy();
         }
     }
 }
