@@ -64,7 +64,6 @@ namespace Hotfix
 		protected virtual void OnLoadingPanelLoaded(LoadingPanel panel)
 		{
 			m_loadingPanel = panel;
-			OnPreLoadScene();
 			IEnumeratorTool.instance.StartCoroutine(LoadScene());
 		}
 		
@@ -88,7 +87,7 @@ namespace Hotfix
 			UpdateProgress(progress);
 		}
 		
-		//加载场景前执行
+		//加载场景前执行，主要做一些内存清理的工作
 		protected virtual void OnPreLoadScene()
 		{
 			UIPanelManager.instance.UnLoadPanelOnLoadScene();
@@ -125,23 +124,29 @@ namespace Hotfix
 		//加载场景
 		IEnumerator LoadScene()
 		{
+			//先跳转空场景，进行内存的清理
+			var clearSceneOperation = SceneManager.LoadSceneAsync(GlobalDefine.SCENE_PATH + GlobalDefine.CLEAR_SCENE_NAME);
+			while (!clearSceneOperation.isDone)
+				yield return null;
+			
+			OnPreLoadScene();
 			GC.Collect();
 
 			Debug.Log("start load scene: " + m_sceneName);
-			var result = SceneManager.LoadSceneAsync(GlobalDefine.SCENE_PATH + m_sceneName);
+			var sceneOperation = SceneManager.LoadSceneAsync(GlobalDefine.SCENE_PATH + m_sceneName);
 			// When allowSceneActivation is set to false then progress is stopped at 0.9. The isDone is then maintained at false.
 			// When allowSceneActivation is set to true isDone can complete.
-			result.allowSceneActivation = false;
+			sceneOperation.allowSceneActivation = false;
 
-			while (result.progress < 0.9f)
+			while (sceneOperation.progress < 0.9f)
 			{
-				UpdateProgress(result.progress);
+				UpdateProgress(sceneOperation.progress);
 				yield return null;
 			}
 
 			UpdateProgress(1);
 			//为true时，场景切换
-			result.allowSceneActivation = true;
+			sceneOperation.allowSceneActivation = true;
 			StartLoadTask();
 		}
 
