@@ -64,7 +64,6 @@ namespace Hotfix.Manager
                 panel = m_UIPanelDic[url];
                 panel.Show();
                 currentPanel = panel;
-                Debug.Log("currentPanel:"+currentPanel);
             }
             else
                 Debug.LogError("UIPanel not loaded:" + url);
@@ -130,7 +129,6 @@ namespace Hotfix.Manager
 
         public void HidePanel()
         {
-            Debug.Log("HidePanel:"+currentPanel);
             currentPanel?.Hide();
         }
 

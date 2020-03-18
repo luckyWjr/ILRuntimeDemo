@@ -11,6 +11,7 @@ namespace Hotfix
 {
 	public class SceneLoad
 	{
+		//加载场景时，其他需要执行的任务。每个任务的进度为0-1
 		protected delegate void LoadTaskDelegate(Action<float> callback);
 		protected class LoadTask
 		{
@@ -28,8 +29,10 @@ namespace Hotfix
 			public void Start()
 			{
 				progress = 0;
+				//执行任务
 				m_loadTask.Invoke((p) => {
-					progress = p;
+					//更新进度
+					progress = Mathf.Clamp01(p);
 					m_progressAction?.Invoke();
 				});
 			}
@@ -37,9 +40,9 @@ namespace Hotfix
 		
 		string m_sceneName;
 		LoadingPanel m_loadingPanel;
-		List<LoadTask> m_loadTaskList;
-		int m_totalSceneLoadProgress;
-		int m_totalProgress;
+		List<LoadTask> m_loadTaskList;//任务列表
+		int m_totalSceneLoadProgress;//加载场景所占的任务数
+		int m_totalProgress;//总任务数（加载场景所占的任务数+其他任务的数量，用于计算loading百分比）
 		bool m_isLoadFinish;
 
 		protected SceneLoad(string sceneName)
@@ -47,6 +50,7 @@ namespace Hotfix
 			m_sceneName = sceneName;
 			m_loadTaskList = new List<LoadTask>();
 			RegisterAllLoadTask();
+			m_totalSceneLoadProgress = 1;
 			m_totalProgress = m_loadTaskList.Count + m_totalSceneLoadProgress;
 		}
 		
@@ -60,18 +64,22 @@ namespace Hotfix
 		protected virtual void OnLoadingPanelLoaded(LoadingPanel panel)
 		{
 			m_loadingPanel = panel;
-			IEnumeratorTool.instance.StartCoroutine(LoadSceneLevel());
+			OnPreLoadScene();
+			IEnumeratorTool.instance.StartCoroutine(LoadScene());
 		}
 		
+		//注册所有需要执行的其他任务
 		protected virtual void RegisterAllLoadTask()
 		{
 		}
 		
+		//注册一个新任务
 		protected virtual void RegisterLoadTask(LoadTaskDelegate task)
 		{
 			m_loadTaskList.Add(new LoadTask(task, UpdateLoadTaskProgress));
 		}
 
+		//更新任务进度
 		protected virtual void UpdateLoadTaskProgress()
 		{
 			float progress = m_totalSceneLoadProgress;
@@ -80,64 +88,64 @@ namespace Hotfix
 			UpdateProgress(progress);
 		}
 		
+		//加载场景前执行
 		protected virtual void OnPreLoadScene()
 		{
 			UIPanelManager.instance.UnLoadPanelOnLoadScene();
 		}
 		
+		//更新总进度
 		protected virtual void UpdateProgress(float progress)
 		{
 			float progressPercent = Mathf.Clamp01(progress / m_totalProgress);
-			Debug.Log("UpdateProgress:" + progressPercent);
 			m_loadingPanel.SetProgress(progressPercent);
+			
+			//所有任务进度为1时，即加载完成
 			if (progress >= m_totalProgress && !m_isLoadFinish)
 				IEnumeratorTool.instance.StartCoroutine(LoadFinish());
 		}
 
+		//所有任务加载完成
 		IEnumerator LoadFinish()
 		{
+			Debug.Log($"Loads scene '{m_sceneName}' completed.");
 			OnLoadFinish();
+			
+			//等待0.5s，这样不会进度显示100%的时候瞬间界面消失。
 			yield return IEnumeratorTool.instance.waitForHalfSecond;
 			m_isLoadFinish = true;
 			m_loadingPanel.Hide();
 		}
 
+		//加载完成时执行
 		protected virtual void OnLoadFinish()
 		{
 		}
-		
-		public virtual IEnumerator LoadSceneLevel()
+
+		//加载场景
+		IEnumerator LoadScene()
 		{
-			OnPreLoadScene();
+			GC.Collect();
 
-			// var clearResult = SceneManager.LoadSceneAsync(GlobalDefine.SCENE_BASE_PATH + "Clear.unity");
-			// clearResult.OnStateChangedCallback(st =>{
-			//
-			// 	if(st == LoadState.Completed)
-			// 	{
-					// GC.Collect();
+			Debug.Log("start load scene: " + m_sceneName);
+			var result = SceneManager.LoadSceneAsync(GlobalDefine.SCENE_PATH + m_sceneName);
+			// When allowSceneActivation is set to false then progress is stopped at 0.9. The isDone is then maintained at false.
+			// When allowSceneActivation is set to true isDone can complete.
+			result.allowSceneActivation = false;
 
-					Debug.Log("start load scene: " + m_sceneName);
-					var result = SceneManager.LoadSceneAsync(GlobalDefine.SCENE_PATH + m_sceneName);
-					// When allowSceneActivation is set to false then progress is stopped at 0.9. The isDone is then maintained at false.
-					// When allowSceneActivation is set to true isDone can complete.
-					result.allowSceneActivation = false;
+			while (result.progress < 0.9f)
+			{
+				UpdateProgress(result.progress);
+				yield return null;
+			}
 
-					while (result.progress < 0.9f)
-					{
-						UpdateProgress(result.progress);
-						
-						yield return null;
-					}
-
-					UpdateProgress(1);
-					result.allowSceneActivation = true;
-					StartLoadTask();
-					// Debug.Log($"Loads scene '{m_sceneName}' completed.");
-					// }
-					// });
+			UpdateProgress(1);
+			//为true时，场景切换
+			result.allowSceneActivation = true;
+			StartLoadTask();
 		}
-		
+
+		//执行其他加载任务
 		protected virtual void StartLoadTask()
 		{
 			if(m_loadTaskList.Count == 0)

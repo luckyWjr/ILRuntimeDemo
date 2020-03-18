@@ -19,7 +19,7 @@ namespace Hotfix.UI
             base.Init();
         }
 
-        public override void GetChild()
+        protected override void GetChild()
         {
             base.GetChild();
         }

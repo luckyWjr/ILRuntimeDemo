@@ -21,7 +21,7 @@ namespace Hotfix.UI
             m_buyBtn.onClick.AddListener(OnBuyBtnClicked);
         }
 
-        public override void GetChild()
+        protected override void GetChild()
         {
             base.GetChild();
             m_nameText = transform.Find("NameText").GetComponent<Text>();

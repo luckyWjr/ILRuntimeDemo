@@ -19,8 +19,8 @@ namespace Hotfix.UI
 
             SetProgress(0);
         }
-        
-        public override void GetChild()
+
+        protected override void GetChild()
         {
             base.GetChild();
             m_progressBar = transform.Find("ProgressBar").GetComponent<Scrollbar>();

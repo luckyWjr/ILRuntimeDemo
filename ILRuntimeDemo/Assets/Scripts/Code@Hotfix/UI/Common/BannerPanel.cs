@@ -19,7 +19,7 @@ namespace Hotfix.UI
             m_backButton.onClick.AddListener(OnBackButtonClicked);
         }
 
-        public override void GetChild()
+        protected override void GetChild()
         {
             base.GetChild();
             m_backButton = transform.Find("BGImage/BackButton").GetComponent<Button>();

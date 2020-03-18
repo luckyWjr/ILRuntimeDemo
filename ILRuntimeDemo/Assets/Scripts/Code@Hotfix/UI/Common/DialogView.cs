@@ -52,7 +52,7 @@ namespace Hotfix.UI
             m_confirmCallback = confirmCallback;
         }
 
-        public override void GetChild()
+        protected override void GetChild()
         {
             base.GetChild();
 

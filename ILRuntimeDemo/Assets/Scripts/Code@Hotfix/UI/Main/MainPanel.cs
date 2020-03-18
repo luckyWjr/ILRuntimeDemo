@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using Hotfix.Manager;
-using UnityEngine;
+﻿using Hotfix.Manager;
 using UnityEngine.UI;
-using UnityEngine.InputSystem;
 
 namespace Hotfix.UI
 {
@@ -31,7 +28,7 @@ namespace Hotfix.UI
             UIHelper.ShowPanel<BannerPanel>();
         }
 
-        public override void GetChild()
+        protected override void GetChild()
         {
             base.GetChild();
             m_contentText = transform.Find("ContentText").GetComponent<Text>();
@@ -65,8 +62,6 @@ namespace Hotfix.UI
         void OnLogoutBtnClick()
         {
             UIHelper.ShowPanel<LoginPanel>();
-            //UIPanelManager.Instance.DestroyPanel<MallPanel>();
-            //UIPanelManager.Instance.DestroyPanel<MainPanel>();
         }
     }
 }

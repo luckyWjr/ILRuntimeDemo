@@ -1,12 +1,13 @@
 ﻿using System;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Hotfix.UI
 {
     public class UIPanel : UIView
     {
         //需要加载的prefab的路径，也作为唯一标识符
-        public string url { private set; get; }
+        public string url { get; }
 
         //UIPanel间的自定义传递数据
         public object data;
@@ -25,7 +26,7 @@ namespace Hotfix.UI
         //加载prefab
         public virtual void Load(Action callback = null)
         {
-            GameObject gameObject = GameObject.Instantiate(Resources.Load(url)) as GameObject;
+            GameObject gameObject = Object.Instantiate(Resources.Load(url)) as GameObject;
             if (gameObject != null)
             {
                 SetGameObject(gameObject);

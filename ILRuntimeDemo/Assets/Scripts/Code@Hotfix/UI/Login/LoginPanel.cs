@@ -20,7 +20,7 @@ namespace Hotfix.UI
             m_loginBtn.onClick.AddListener(OnClick);
         }
 
-        public override void GetChild()
+        protected override void GetChild()
         {
             base.GetChild();
 

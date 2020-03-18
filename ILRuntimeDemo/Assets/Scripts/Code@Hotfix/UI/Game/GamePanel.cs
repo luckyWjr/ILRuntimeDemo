@@ -39,7 +39,7 @@ namespace Hotfix.UI
             m_timeText.text = $"{(int)m_time / 60}:{(int)m_time % 60}";
         }
 
-        public override void GetChild()
+        protected override void GetChild()
         {
             base.GetChild();
 
@@ -50,6 +50,7 @@ namespace Hotfix.UI
 
         void OnExitButtonClick()
         {
+            SceneLoadManager.instance.LoadScene(GlobalDefine.SAMPLE_SCENE_NAME);
         }
     }
 }

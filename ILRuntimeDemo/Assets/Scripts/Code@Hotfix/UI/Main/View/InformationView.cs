@@ -24,7 +24,7 @@ namespace Hotfix.UI
             m_phoneText.text = "158xxxxx094";
         }
 
-        public override void GetChild()
+        protected override void GetChild()
         {
             base.GetChild();
             m_nameText = transform.Find("NameList/ContentText").GetComponent<Text>();

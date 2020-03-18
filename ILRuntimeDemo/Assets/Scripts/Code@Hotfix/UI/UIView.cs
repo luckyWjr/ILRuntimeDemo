@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Hotfix.UI
 {
@@ -81,7 +82,7 @@ namespace Hotfix.UI
             GetChild();
         }
 
-        public virtual void GetChild()
+        protected virtual void GetChild()
         {
         }
 
@@ -111,9 +112,7 @@ namespace Hotfix.UI
         {
             isWillDestroy = true;
             if (isVisible)
-            {
                 Hide();
-            }
         }
 
         //销毁gameobject
@@ -121,7 +120,7 @@ namespace Hotfix.UI
         {
             if (!isWillDestroy)
                 Destroy();
-            GameObject.Destroy(gameObject);
+            Object.Destroy(gameObject);
             gameObject = null;
             transform = null;
             rectTransform = null;

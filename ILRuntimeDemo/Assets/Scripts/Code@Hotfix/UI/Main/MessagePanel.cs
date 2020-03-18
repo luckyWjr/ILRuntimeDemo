@@ -28,7 +28,7 @@ namespace Hotfix.UI
             m_journalToggle.onValueChanged.AddListener(OnJournalToggleClicked);
         }
 
-        public override void GetChild()
+        protected override void GetChild()
         {
             base.GetChild();
 
